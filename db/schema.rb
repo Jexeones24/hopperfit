@@ -10,24 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170701145748) do
+ActiveRecord::Schema.define(version: 20170702175639) do
 
-  create_table "movements", force: :cascade do |t|
-    t.string "name"
-    t.string "target_area"
-    t.string "description"
-    t.string "demo_vid"
-  end
-
-  create_table "workout_movements", force: :cascade do |t|
-    t.integer "workout_id"
-    t.integer "movement_id"
+  create_table "hoppers", force: :cascade do |t|
+    t.string "time_domain"
+    t.string "level"
   end
 
   create_table "workouts", force: :cascade do |t|
-    t.string "level"
-    t.integer "time"
-    t.string "style"
+    t.integer "hopper_id"
   end
 
 end

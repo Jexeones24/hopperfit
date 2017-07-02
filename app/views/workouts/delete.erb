@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Wanna Trash This Workout?</title>
+  </head>
+  <body>
+    <h2><%= @workout %></h2>
+    <form action=<%= "/workouts/what_now" %> method="post">
+      <input id="hidden" type="hidden" name="_method" value="delete">
+      <input type="submit" value="delete" id="submit">
+    </form>
+  </body>
+</html>
