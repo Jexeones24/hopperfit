@@ -2,15 +2,17 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Edit Your Workout, Ya Wimp!</title>
+    <title>Record Your Workout</title>
   </head>
   <body>
-    <p>Dis Moi Ton Results</p>
+    <center>
+    <h1>Tell Me Everything...</h1>
     <form action=<%="/workouts/#{@workout.id}"%> method="post">
       <input id="hidden" type="hidden" name="_method" value="patch">
-      Score:<br />
+      Results:<br />
       <textarea name="comment" id="comment"></textarea><br />
       <input type="submit" value="submit" id="submit">
     </form>
+  </center>
   </body>
 </html>

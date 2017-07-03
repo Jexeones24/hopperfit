@@ -16,6 +16,7 @@ GEM
       public_suffix (~> 2.0, >= 2.0.2)
     arel (8.0.0)
     bond (0.5.1)
+    byebug (9.0.6)
     capybara (2.14.4)
       addressable
       mime-types (>= 1.16)
@@ -105,6 +106,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  byebug
   capybara
   pry
   rack-test

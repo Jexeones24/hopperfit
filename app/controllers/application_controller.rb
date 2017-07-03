@@ -24,7 +24,6 @@ class ApplicationController < Sinatra::Base
     @time_domain = params[:time_domain]
     @level = params[:level]
     @hopper = Hopper.create(params[:hopper])
-    @workout = Workout.create(params[:workout])
     redirect to "/workouts/#{@workout.id}/"
   end
 

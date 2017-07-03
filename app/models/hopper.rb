@@ -1,8 +1,12 @@
+require 'pry'
+require 'sinatra/activerecord'
+require './config/environment.rb'
+
 class Hopper < ActiveRecord::Base
   has_one :workout
 
-  #choose workout style
-  def workout_style(params[:time_domain])
+  #generate workout style
+  def workout_style(params)
     num = params[:time_domain].to_i
     @style = ""
     case num
@@ -15,7 +19,7 @@ class Hopper < ActiveRecord::Base
     end
   end
 
-  #choose num of movements
+  #generate num of movements
   def number_of_movements(style)
     if @style.include?("AMRAP")
       if @style.include?(("5".."8").to_a.join)
@@ -30,7 +34,7 @@ class Hopper < ActiveRecord::Base
   end
 
 
-  #make array of movements
+  # make array of movements
   def choose_movements
     @movement_array = [MOVEMENT_LIB].sample(@movement_num)
   end
@@ -69,9 +73,9 @@ class Hopper < ActiveRecord::Base
   end
 
 
-  def create_workout
-    @workout = Workout.create(params[:hopper])
-    # what do i do with @movement_array????
+  def self.create_workout
+    @workout = Workout.create(@movement_array)
   end
 
 end
+# Pry.start
