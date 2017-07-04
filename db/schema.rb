@@ -10,15 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170702175639) do
+ActiveRecord::Schema.define(version: 20170704163251) do
 
   create_table "hoppers", force: :cascade do |t|
-    t.string "time_domain"
-    t.string "level"
+    t.integer "movement_id"
+    t.integer "workout_id"
+    t.integer "time_domain"
+  end
+
+  create_table "movements", force: :cascade do |t|
+    t.string "name"
+    t.string "target_area"
+    t.string "rep_range"
+  end
+
+  create_table "styles", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "workout_movement_styles", force: :cascade do |t|
+    t.integer "workout_id"
+    t.integer "movement_id"
+    t.integer "style_id"
   end
 
   create_table "workouts", force: :cascade do |t|
-    t.integer "hopper_id"
   end
 
 end

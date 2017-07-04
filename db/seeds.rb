@@ -1,0 +1,7 @@
+back_squat = Movement.create(name: "Back Squat", target_area: "Lower Body", rep_range: "Low")
+snatch = Movement.create(name: "Snatch", target_area: "Full Body", rep_range: "Moderate")
+pullup = Movement.create(name: "Pullup", target_area: "Upper Body", rep_range: "High")
+pushup = Movement.create(name: "Pushup", target_area: "Upper Body", rep_range: "High")
+wallball = Movement.create(name: "Wallball", target_area: "Full Body", rep_range: "High")
+box_jump = Movement.create(name: "Box Jump", target_area: "Lower Body", rep_range: "High")
+double_under = Movement.create(name: "Double Under", target_area: "Full Body", rep_range: "High")

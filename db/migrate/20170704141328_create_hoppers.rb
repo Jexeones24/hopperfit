@@ -1,8 +1,8 @@
 class CreateHoppers < ActiveRecord::Migration[5.1]
   def change
     create_table :hoppers do |t|
-      t.string :time_domain
-      t.string :level
+      t.integer :movement_id
+      t.integer :workout_id
     end
   end
 end

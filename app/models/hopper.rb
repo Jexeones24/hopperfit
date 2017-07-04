@@ -1,81 +1,58 @@
 require 'pry'
 require 'sinatra/activerecord'
 require './config/environment.rb'
+require 'json'
+
+movements = File.read('./tools/movement_library.json')
+MOVEMENT_LIB = JSON.parse(movements)
 
 class Hopper < ActiveRecord::Base
-  has_one :workout
+  belongs_to :movement
+  belongs_to :workout
 
-  #generate workout style
-  def workout_style(params)
-    num = params[:time_domain].to_i
-    @style = ""
-    case num
-      when 5..8 then style = "AMRAP #{num}"
-      when 9..15 then style = "AMRAP #{num}"
-      when 16..20 then style = "3 Rounds for Time"
-      when 21..30 then style = "5 Rounds for Time"
-      when 31..60 then style = "6 Rounds for Time"
-      else "Please enter a reasonable time frame, you crazy person!"
-    end
-  end
+  def self.generate_workout(time_domain)
 
-  #generate num of movements
-  def number_of_movements(style)
-    if @style.include?("AMRAP")
-      if @style.include?(("5".."8").to_a.join)
+    #generate number of movements
+
+    def number_of_movements(time_domain)
+      movement_num = nil
+      if time_domain.between?(5, 10)
         movement_num = rand(1..3)
+      elsif time_domain.between?(11, 30)
+        movement_num = rand(3..5)
       else
-        movement_num = rand(2..4)
-      end
-    else
-      movement_num = rand(2..6)
-    end
-    @movement_num = movement_num
-  end
-
-
-  # make array of movements
-  def choose_movements
-    @movement_array = [MOVEMENT_LIB].sample(@movement_num)
-  end
-
-
-  #assign rep based on movement type
-  def rep_by_movement
-    @movement_array = []
-    if @movement[:description].include?("lifting")
-      @movement.lifting_reps
-      @movement_array << @reps
-    else
-      @movement.non_lifting_reps
-      @movement_array << @reps
-    end
-  end
-  # call these on movement_array??
-  # put altogether into an array
-
-  def lifting_reps
-    @movement.instance_eval do
-      def rep
-        "#{rand(3..10)} #{self}" # => "8 Snatch"
+        movement_num = rand(5..8)
       end
     end
-    @reps = self[:name].rep #movement needs name attribute, have to call on that attribute or returns entire object
-  end
 
-  def non_lifting_reps
-    @movement.instance_eval do
-      def rep
-        "#{rand(10..50)} #{self}"
+    def choose_movements(movement_num)
+      movement_array = MOVEMENT_LIB[:movements].sample(movement_num)
+      # array of new movement objects
+      new_movements = movement_array.map { |obj| Movement.new(name: obj[:name], target_area: obj[:target_area], rep_range: obj[:rep_range]) }
+    end
+
+    # assigns reps for one movement
+    def rep_range
+      reps = nil
+      if movement[:rep_range] == "High"
+        reps = rand(30..50)
+      elsif movement[:rep_range] == "Moderate"
+        reps = rand(11..29)
+      else
+        reps = rand(3..10)
       end
     end
-    @reps = self[:name].rep
+
+    def each_movement(new_movements)
+      rep_ranges = new_movements.map { |movement| movement.rep_range }
+    end
+
+    def create_workout
+      workout = Workout.new
+      new_movements.map { |m| workout.movements << m }
+      #JSON needs rep_range field
+      workout.save
+    end
+
   end
-
-
-  def self.create_workout
-    @workout = Workout.create(@movement_array)
-  end
-
 end
-# Pry.start

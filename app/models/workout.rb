@@ -4,11 +4,7 @@ require './config/environment.rb'
 
 
 class Workout < ActiveRecord::Base
-  belongs_to :hopper
-
-  def display
-    @workout = @movement_array.each { |movement|
-    puts "#{movement}" }
-  end
-
+  has_many :hoppers
+  has_many :movements, through: :hoppers
+  has_many :styles, through: :movements
 end
